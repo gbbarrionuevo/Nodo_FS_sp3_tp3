@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('partials/head', { title: 'Editar' }) %>
+
+<body class="bg-gray-100 text-gray-800 font-sans">
+  <%- include('partials/header', { breadcrumb: 'Dashboard / Editar' }) %>
+  <%- include('partials/alerts', { message, error }) %>
+  
+  <div class="bg-white shadow-md rounded-lg border border-gray-200 max-w-7xl mx-auto mb-5">
+    <div class="px-6 pt-6 pb-4">
+      <h3 class="text-xl font-semibold text-gray-800">Editar superhéroe</h3>
+    </div>
+    <hr class="border-t border-gray-200">
+
+    <form action="/api/heroes/<%= superheroe._id %>/editar?_method=PUT" method="POST" class="px-6" onsubmit="confirmarEnvio(event)">
+      <%- include('partials/form-fields', { superheroe }) %>
+
+      <div class="-mx-6">
+        <hr class="border-t border-gray-200">
+      </div>
+      <div class="bg-gray-100 -mx-6 !my-0 px-6 py-4 flex justify-end gap-2 rounded-b-lg">
+        <a href="/api/heroes" class="text-white bg-gray-600 hover:bg-gray-700 hover:no-underline focus:outline-none focus:ring-4 focus:ring-gray-200 rounded-lg px-4 py-2 dark:bg-gray-500 dark:hover:bg-gray-600 dark:focus:ring-gray-300 transition">Volver</a>
+        <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 hover:no-underline focus:outline-none focus:ring-4 focus:ring-blue-300 rounded-lg px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-200 transition">Confirmar</button>
+      </div>
+    </form>
+  </div>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

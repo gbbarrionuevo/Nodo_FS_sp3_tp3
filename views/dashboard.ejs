@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<%- include('partials/head', { title: 'Dashboard' }) %>
+
+<body class="bg-gray-100 text-gray-800 font-sans">
+  <%- include('partials/header', { breadcrumb: 'Dashboard' }) %>
+  <%- include('partials/alerts', { message, error }) %>
+
+  <div class="bg-white shadow-md rounded-lg border border-gray-200 max-w-7xl mx-auto mb-5">
+    <div class="px-6 pt-6 pb-4">
+      <h3 class="text-xl font-semibold text-gray-800">Superhéroes</h3>
+    </div>
+    <hr class="border-t border-gray-200">
+
+    <% if (superheroes && superheroes.length) { %>
+      <div class="overflow-x-auto px-3 pt-5">
+        <table id="tablaSuperheroes" class="min-w-full divide-y divide-gray-300">
+          <thead class="bg-gray-200 text-left text-sm font-semibold text-gray-700">
+            <tr>
+              <th class="px-4 py-2">Superhéroe</th>
+              <th class="px-4 py-2">Nombre real</th>
+              <th class="px-4 py-2">Edad</th>
+              <th class="px-4 py-2">Planeta origen</th>
+              <th class="px-4 py-2">Debilidad</th>
+              <th class="px-4 py-2">Poderes</th>
+              <th class="px-4 py-2">Aliados</th>
+              <th class="px-4 py-2">Enemigos</th>
+              <th class="px-4 py-2">Acción</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200 text-sm">
+            <% superheroes.forEach(hero => { %>
+              <tr class="hover:bg-gray-50">
+                <td class="px-4 py-1"><%= hero.nombreSuperHeroe %></td>
+                <td class="px-4 py-1"><%= hero.nombreReal %></td>
+                <td class="px-4 py-1"><%= hero.edad %></td>
+                <td class="px-4 py-1"><%= hero.planetaOrigen || '-' %></td>
+                <td class="px-4 py-1"><%= hero.debilidad || '-' %></td>
+                <td class="px-4 py-1">
+                  <% if (hero.poderes && hero.poderes.length) { %>
+                    <ul class="max-w-md list-disc">
+                      <% hero.poderes.forEach(p => { %>
+                        <li><%= p %></li>
+                      <% }); %>
+                    </ul>
+                  <% } else { %> - <% } %>
+                </td>
+                <td class="px-4 py-1">
+                  <% if (hero.aliados && hero.aliados.length) { %>
+                    <ul class="max-w-md list-disc">
+                      <% hero.aliados.forEach(a => { %>
+                        <li><%= a %></li>
+                      <% }); %>
+                    </ul>
+                  <% } else { %> - <% } %>
+                </td>
+                <td class="px-4 py-1">
+                  <% if (hero.enemigos && hero.enemigos.length) { %>
+                    <ul class="max-w-md list-disc">
+                      <% hero.enemigos.forEach(e => { %>
+                        <li><%= e %></li>
+                      <% }); %>
+                    </ul>
+                  <% } else { %> - <% } %>
+                </td>
+                <td class="px-4 py-1">
+                  <a href="/api/heroes/<%= hero._id %>/editar" title="Editar" class="mr-1"><i class="fa-solid fa-pen text-blue-600"></i></a>
+                  
+                  <form action="/api/heroes/<%= hero._id %>?_method=DELETE" method="POST" class="inline" onsubmit="return confirm('¿Estás seguro de eliminar este superhéroe?')">
+                    <button type="submit" title="Eliminar" class="border-0 bg-transparent p-0 m-0 cursor-pointer text-red-500 hover:text-red-700 focus:outline-none focus:ring-0 transition"><i class="fa-solid fa-times fa-lg"></i></button>
+                  </form>
+                </td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </div>
+    <% } else { %>
+      <p class="text-gray-500 px-6 py-4">No hay superhéroes registrados.</p>
+    <% } %>
+
+    <hr class="border-t border-gray-200 mt-6">
+    <div class="bg-gray-100 px-6 py-4 flex justify-end gap-2 rounded-b-lg">
+      <a href="/api/heroes/agregar" class="text-white bg-blue-700 hover:bg-blue-800 hover:no-underline focus:outline-none focus:ring-4 focus:ring-blue-300 rounded-lg px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-200 transition">Crear</a>
+    </div>
+  </div>
+
+  <%- include('partials/footer') %>
+</body>
+</html>
