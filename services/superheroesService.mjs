@@ -1,5 +1,4 @@
 import superHeroRepository from '../repositories/SuperHeroRepository.mjs';
-import SuperHero from '../models/SuperHero.mjs';
 
 export async function obtenerSuperheroePorId(id) {
   return await superHeroRepository.obtenerPorId(id);
@@ -10,8 +9,7 @@ export async function obtenerTodosLosSuperheroes() {
 }
 
 export async function crearSuperheroe(nuevoSuperHeroe) {
-  const superheroe = new SuperHero(nuevoSuperHeroe);
-  return await superHeroRepository.guardar(superheroe);
+  return await superHeroRepository.crear(nuevoSuperHeroe);
 }
 
 export async function actualizarSuperheroe(id, datosSuperHeroe) {
@@ -21,11 +19,14 @@ export async function actualizarSuperheroe(id, datosSuperHeroe) {
     return null;
   }
 
-  for (const key in datosSuperHeroe) {
-    superheroe[key] = datosSuperHeroe[key];
-  }
+  // Convierto string vacío en array vacío sólo cuando desde el form crear/edit heroes no se envian valores para aliados/enemigos
+  ['aliados', 'enemigos'].forEach(campo => {
+    if (typeof datosSuperHeroe[campo] === 'string' && datosSuperHeroe[campo].trim() === '') {
+      datosSuperHeroe[campo] = [];
+    }
+  });
 
-  return await superHeroRepository.guardar(superheroe);
+  return await superHeroRepository.actualizar(id, datosSuperHeroe);
 }
 
 export async function eliminarSuperheroe(id) {
@@ -36,6 +37,10 @@ export async function eliminarSuperheroe(id) {
   }
 
   return await superHeroRepository.eliminar(superheroe);
+}
+
+export async function obtenerSuperheroesMayoresDe30() {
+  return await superHeroRepository.obtenerMayoresDe30();
 }
 
 export async function eliminarSuperheroePorNombre(nombre) {

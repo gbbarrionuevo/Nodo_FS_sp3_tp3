@@ -37,3 +37,18 @@ export function agregarCampo(contenedorId, nombre) {
   div.appendChild(btnEliminar);
   contenedor.appendChild(div);
 }
+
+export function forzarArraysVacios(form, campos = []) {
+  form.addEventListener('submit', () => {
+    campos.forEach(nombre => {
+      const inputs = form.querySelectorAll(`input[name="${nombre}[]"]`);
+      if (inputs.length === 0) {
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = nombre;
+        hiddenInput.value = '';
+        form.appendChild(hiddenInput);
+      }
+    });
+  });
+}

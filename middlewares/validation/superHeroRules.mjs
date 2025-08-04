@@ -83,8 +83,12 @@ export const validationRules = () => [
     }),
 
   body('aliados')
-    .optional({ checkFalsy: true })
+    .optional()
     .custom(arr => {
+      if (arr === '') {
+        return true;
+      }
+
       if (!Array.isArray(arr)) {
         throw new Error('Los aliados del superhéroe deben ser de tipo array.');
       }
@@ -105,8 +109,12 @@ export const validationRules = () => [
     }),
 
   body('enemigos')
-    .optional({ checkFalsy: true })
+    .optional()
     .custom(arr => {
+      if (arr === '') {
+        return true;
+      }
+      
       if (!Array.isArray(arr)) {
         throw new Error('Los enemigos del superhéroe deben ser de tipo array.');
       }

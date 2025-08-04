@@ -6,6 +6,7 @@ import {
   formularioEditarSuperheroeController,
   editarSuperheroeController,
   eliminarSuperheroeController,
+  obtenerSuperheroesMayoresDe30Controller,
   eliminarSuperheroePorNombreController
 } from '../controllers/superheroesController.mjs';
 
@@ -18,6 +19,7 @@ const router = express.Router();
 router.get('/heroes', obtenerTodosLosSuperheroesController);
 router.get('/heroes/agregar', formularioCrearSuperheroeController);
 router.post('/heroes/agregar', validationRules(), validationErrorsForViews, agregarSuperheroeController);
+router.get('/heroes/mayores-30', validationErrorsForAPI, obtenerSuperheroesMayoresDe30Controller);
 router.delete('/heroes/nombre/:nombre', validarNombre, validationErrorsForAPI, eliminarSuperheroePorNombreController);
 router.delete('/heroes/:id', eliminarSuperheroeController);
 router.get('/heroes/:id/editar', formularioEditarSuperheroeController);

@@ -14,12 +14,20 @@ class SuperHeroRepository extends IRepository {
     return await SuperHero.findOne({ nombreSuperHeroe: nombre });
   }
 
-  async guardar(superheroe) {
-    return await superheroe.save();
+  async crear(datos) {
+    return await SuperHero.create(datos);
+  }
+
+  async actualizar(id, datos) {
+    return await SuperHero.findByIdAndUpdate(id, datos, { new: true });
   }
 
   async eliminar(superheroe) {
     return await superheroe.deleteOne();
+  }
+
+  async obtenerMayoresDe30() {
+    return await SuperHero.find({ edad: { $gt: 30 }, planetaOrigen: 'Tierra', 'poderes.1': { $exists: true } });
   }
 }
 

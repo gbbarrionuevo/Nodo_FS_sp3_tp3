@@ -4,9 +4,10 @@ import {
   crearSuperheroe,
   actualizarSuperheroe,
   eliminarSuperheroe,
+  obtenerSuperheroesMayoresDe30,
   eliminarSuperheroePorNombre
 } from '../services/superheroesService.mjs';
-import { renderizarSuperheroe } from '../views/responseView.mjs';
+import { renderizarSuperheroe, renderizarListaSuperheroes } from '../views/responseView.mjs';
 
 export async function obtenerTodosLosSuperheroesController(req, res) {
   try {
@@ -96,6 +97,21 @@ export async function eliminarSuperheroeController(req, res) {
     res.redirect('/api/heroes?message=Superhéroe eliminado correctamente.');
   } catch (error) {
     res.redirect('/api/heroes?error=Error al eliminar el superhéroe.');
+  }
+}
+
+export async function obtenerSuperheroesMayoresDe30Controller(req, res) {
+  try {
+    const superheroes = await obtenerSuperheroesMayoresDe30();
+
+    if (superheroes.length === 0) {
+      return res.status(404).send({ message: "No se encontraron superhéroes mayores de 30 años" });
+    }
+
+    const superheroesFormateados = renderizarListaSuperheroes(superheroes);
+    res.status(200).json(superheroesFormateados);
+  } catch (error) {
+    res.status(500).send({ message: 'Error al obtener superhéroes mayores de 30', error: error.message });
   }
 }
 
